@@ -1,0 +1,25 @@
+
+*.o
+*.out
+*.exe
+
+/build/
+/bin/
+/obj/
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+*.log
+*.bak
+*.tmp
+*.DS_Store
+
+/tests/*.out
+/tests/*.exe
+/tests/*.o
+
+#we may need to share results but they're ignored for now
+/results/
