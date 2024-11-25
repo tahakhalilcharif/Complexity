@@ -1,0 +1,103 @@
+n=1, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=10, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=100, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=1000, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=10000, insert_time=0.001000, delete_time=0.001000, search_time=0.000000
+n=100000, insert_time=0.005000, delete_time=0.020000, search_time=0.000000
+n=1000000, insert_time=0.037000, delete_time=0.219000, search_time=0.001000
+n=10000000, insert_time=0.348000, delete_time=3.094000, search_time=0.014000
+n=20000000, insert_time=0.700000, delete_time=6.827000, search_time=0.033000
+n=30000000, insert_time=1.085000, delete_time=9.946000, search_time=0.036000
+n=40000000, insert_time=1.519000, delete_time=13.165000, search_time=0.048000
+n=50000000, insert_time=1.761000, delete_time=16.387000, search_time=0.060000
+n=60000000, insert_time=2.113000, delete_time=19.850000, search_time=0.070000
+n=70000000, insert_time=2.439000, delete_time=23.753000, search_time=0.085000
+n=80000000, insert_time=2.795000, delete_time=27.248000, search_time=0.100000
+n=90000000, insert_time=3.174000, delete_time=30.805000, search_time=0.107000
+n=100000000, insert_time=3.479000, delete_time=34.693000, search_time=0.123000
+n=200000000, insert_time=6.917000, delete_time=69.434000, search_time=0.242000
+n=300000000, insert_time=11.546000, delete_time=123.808000, search_time=0.394000
+n=400000000, insert_time=15.282000, delete_time=147.618000, search_time=0.518000
+n=1, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=10, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=100, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=1000, insert_time=0.000000, delete_time=0.000000, search_time=0.000000
+n=10000, insert_time=0.000000, delete_time=0.002000, search_time=0.000000
+n=100000, insert_time=0.005000, delete_time=0.018000, search_time=0.000000
+n=1000000, insert_time=0.036000, delete_time=0.219000, search_time=0.001000
+n=10000000, insert_time=0.350000, delete_time=3.334000, search_time=0.012000
+n=20000000, insert_time=0.728000, delete_time=7.033000, search_time=0.025000
+n=30000000, insert_time=1.052000, delete_time=10.367000, search_time=0.039000
+n=40000000, insert_time=1.492000, delete_time=13.373000, search_time=0.049000
+n=50000000, insert_time=1.834000, delete_time=16.996000, search_time=0.061000
+n=60000000, insert_time=2.050000, delete_time=23.484000, search_time=0.079000
+n=70000000, insert_time=2.637000, delete_time=24.194000, search_time=0.087000
+n=80000000, insert_time=2.878000, delete_time=30.845000, search_time=0.133000
+n=90000000, insert_time=4.137000, delete_time=35.789000, search_time=0.120000
+n=100000000, insert_time=3.801000, delete_time=35.776000, search_time=0.396000
+n=1, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=10, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=100, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=1000, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=10000, insert time=0.000000, delete time=0.002000, search time=0.000000
+n=100000, insert time=0.005000, delete time=0.018000, search time=0.000000
+n=1000000, insert time=0.035000, delete time=0.222000, search time=0.001000
+n=2000000, insert time=0.075000, delete time=0.471000, search time=0.002000
+n=3000000, insert time=0.110000, delete time=0.784000, search time=0.003000
+n=4000000, insert time=0.147000, delete time=1.103000, search time=0.004000
+n=5000000, insert time=0.178000, delete time=1.456000, search time=0.006000
+n=6000000, insert time=0.217000, delete time=1.703000, search time=0.007000
+n=7000000, insert time=0.248000, delete time=2.061000, search time=0.009000
+n=8000000, insert time=0.291000, delete time=2.333000, search time=0.010000
+n=1, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=10, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=100, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=1000, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=2000, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=3000, insert time=0.001000, delete time=0.000000, search time=0.000000
+n=4000, insert time=0.000000, delete time=0.000000, search time=0.000000
+n=5000, insert time=0.000000, delete time=0.001000, search time=0.000000
+n=6000, insert time=0.000000, delete time=0.001000, search time=0.000000
+n=7000, insert time=0.000000, delete time=0.001000, search time=0.000000
+n=8000, insert time=0.000000, delete time=0.001000, search time=0.000000
+n=9000, insert time=0.000000, delete time=0.001000, search time=0.000000
+n=10000, insert time=0.000000, delete time=0.001000, search time=0.000000
+n=20000, insert time=0.001000, delete time=0.003000, search time=0.000000
+n=30000, insert time=0.002000, delete time=0.005000, search time=0.000000
+n=40000, insert time=0.002000, delete time=0.006000, search time=0.000000
+n=50000, insert time=0.002000, delete time=0.008000, search time=0.000000
+n=60000, insert time=0.002000, delete time=0.011000, search time=0.000000
+n=70000, insert time=0.003000, delete time=0.012000, search time=0.000000
+n=80000, insert time=0.002000, delete time=0.016000, search time=0.000000
+n=90000, insert time=0.004000, delete time=0.017000, search time=0.000000
+n=100000, insert time=0.003000, delete time=0.018000, search time=0.000000
+n=200000, insert time=0.007000, delete time=0.039000, search time=0.000000
+n=300000, insert time=0.011000, delete time=0.059000, search time=0.000000
+n=400000, insert time=0.014000, delete time=0.081000, search time=0.001000
+n=500000, insert time=0.018000, delete time=0.101000, search time=0.001000
+n=600000, insert time=0.025000, delete time=0.125000, search time=0.001000
+n=700000, insert time=0.025000, delete time=0.147000, search time=0.001000
+n=800000, insert time=0.030000, delete time=0.169000, search time=0.001000
+n=900000, insert time=0.035000, delete time=0.196000, search time=0.001000
+n=1000000, insert time=0.036000, delete time=0.256000, search time=0.002000
+n=2000000, insert time=0.072000, delete time=0.497000, search time=0.003000
+n=3000000, insert time=0.107000, delete time=0.865000, search time=0.004000
+n=4000000, insert time=0.151000, delete time=1.192000, search time=0.006000
+n=5000000, insert time=0.177000, delete time=1.389000, search time=0.006000
+n=6000000, insert time=0.214000, delete time=1.807000, search time=0.007000
+n=7000000, insert time=0.254000, delete time=2.009000, search time=0.008000
+n=8000000, insert time=0.282000, delete time=2.371000, search time=0.010000
+n=9000000, insert time=0.316000, delete time=2.736000, search time=0.011000
+n=10000000, insert time=0.348000, delete time=3.098000, search time=0.012000
+n=20000000, insert time=0.716000, delete time=6.599000, search time=0.033000
+n=30000000, insert time=1.067000, delete time=9.808000, search time=0.071000
+n=40000000, insert time=1.544000, delete time=13.728000, search time=0.049000
+n=50000000, insert time=1.786000, delete time=17.330000, search time=0.059000
+n=60000000, insert time=2.147000, delete time=21.820000, search time=0.074000
+n=70000000, insert time=2.513000, delete time=25.709000, search time=0.090000
+n=80000000, insert time=2.858000, delete time=26.737000, search time=0.097000
+n=90000000, insert time=3.151000, delete time=31.045000, search time=0.112000
+n=100000000, insert time=3.539000, delete time=34.819000, search time=0.125000
+n=200000000, insert time=7.335000, delete time=69.181000, search time=0.243000
+n=300000000, insert time=10.378000, delete time=106.569000, search time=0.374000
+n=400000000, insert time=14.222000, delete time=140.912000, search time=0.480000

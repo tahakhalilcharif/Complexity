@@ -21,5 +21,3 @@
 /tests/*.exe
 /tests/*.o
 
-#we may need to share results but they're ignored for now
-/results/
