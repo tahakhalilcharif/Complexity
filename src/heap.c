@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "heap.h"
+#include "../include/heap.h"
+
 
 MinHeap* createHeap(int capacity) {
     MinHeap* heap = (MinHeap*) malloc(sizeof(MinHeap));
@@ -80,4 +81,17 @@ void buildMinHeap_N(MinHeap* heap, int* array, int n) {
 void freeHeap(MinHeap* heap) {
     free(heap->data);
     free(heap);
+}
+
+void displayHeap(MinHeap* heap) {
+    if (heap->size == 0) {
+        printf("Heap is empty.\n");
+        return;
+    }
+
+    printf("Heap elements: ");
+    for (int i = 0; i < heap->size; i++) {
+        printf("%d ", heap->data[i]);
+    }
+    printf("\n");
 }

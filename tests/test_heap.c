@@ -2,7 +2,6 @@
 #include <assert.h>
 #include "../include/heap.h"
 
-
 void test_createHeap() {
     MinHeap* heap = createHeap(10);
     assert(heap != NULL);
@@ -21,6 +20,9 @@ void test_insertMinHeap() {
     insertMinHeap(heap, 2);
     insertMinHeap(heap, 4);
 
+    printf("Heap after insertions:\n");
+    displayHeap(heap);
+
     assert(heap->data[0] == 1);
     freeHeap(heap);
     printf("test_insertMinHeap passed\n");
@@ -34,7 +36,13 @@ void test_extractMin() {
     insertMinHeap(heap, 17);
     insertMinHeap(heap, 8);
 
+    printf("Heap before extraction:\n");
+    displayHeap(heap);
+
     int min = extractMin(heap);
+    printf("Heap after extracting min (%d):\n", min);
+    displayHeap(heap);
+
     assert(min == 8);
     assert(heap->data[0] == 10);
     freeHeap(heap);
@@ -48,6 +56,9 @@ void test_buildMinHeap_NlogN() {
 
     buildMinHeap_NlogN(heap, array, n);
 
+    printf("Heap after building (NlogN):\n");
+    displayHeap(heap);
+
     assert(heap->data[0] == 1);
     freeHeap(heap);
     printf("test_buildMinHeap_NlogN passed\n");
@@ -59,6 +70,9 @@ void test_buildMinHeap_N() {
     MinHeap* heap = createHeap(n);
 
     buildMinHeap_N(heap, array, n);
+
+    printf("Heap after building (N):\n");
+    displayHeap(heap);
 
     assert(heap->data[0] == 1);
     freeHeap(heap);
