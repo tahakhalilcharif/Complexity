@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-data = pd.read_csv("results/heap_construction_times.csv")
+data = pd.read_csv("results/heaps/heap_construction_times.csv")
 
 sizes = data["Size"]
 times_nlogn = data["Time_NlogN"]
@@ -22,5 +22,5 @@ plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f"{y:.6f}"
 
 plt.legend()
 
-plt.savefig("results/heap_construction_comparison_updated.png")
+plt.savefig("results/heaps/heap_construction_comparison_updated.png")
 plt.show()

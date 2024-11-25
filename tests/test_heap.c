@@ -44,7 +44,7 @@ void benchmark_heap_operations(const char* filename, int n) {
 }
 
 int main() {
-    const char* results_file = "../results/heap_benchmark.txt";
+    const char* results_file = "../results/heaps/heap_benchmark.txt";
 
     system("mkdir -p ../results");
 
