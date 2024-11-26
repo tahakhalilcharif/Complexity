@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/btrees.h"
+#include "../include/bTrees.h"
 #include <time.h>
+#include <stdbool.h>
 #include <sys/time.h>
 
 // Function to create a new B-tree node
@@ -282,6 +283,39 @@ void deleteKey(BTree* tree, int key) {
     }
 }
 
+bool search(BTreeNode *node, int key) {
+    if (node == NULL) {
+        return false;  // Base case: if the node is NULL, the key is not found
+    }
+
+    int idx = 0;
+
+    // Find the first key greater than or equal to the key
+    while (idx < node->numKeys && key > node->keys[idx]) {
+        idx++;
+    }
+
+    // If the found key is equal to the key we are searching for
+    if (idx < node->numKeys && node->keys[idx] == key) {
+        return true;  // Key found
+    }
+
+    // If the node is a leaf, the key is not present
+    if (node->isLeaf) {
+        return false;  // Key not found
+    }
+
+    // Go to the appropriate child
+    return search(node->children[idx], key);
+}
+
+// Wrapper function to search for a key in the B-tree
+bool btree_search(BTree *tree, int key) {
+    if (tree == NULL || tree->root == NULL) {
+        return false;  // Tree is empty
+    }
+    return search(tree->root, key);
+}
 
 
 
