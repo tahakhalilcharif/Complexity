@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/btrees.h"
+#include "../include/bTrees.h"
 #include <time.h>
 #include <sys/time.h>
 
