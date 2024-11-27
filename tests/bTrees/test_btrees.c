@@ -7,26 +7,35 @@ void benchmarkBTreeOperations(FILE *file, int n)
 {
 
     BTree *tree = createBTree();
-
+    int max =0;
+    int random;
     clock_t start = clock();
     for (int i = 0; i < n; i++)
     {
-        insert(tree, rand() % 1000);
+        random = rand() % 1000;
+        if (random > max){
+            max = random;
+        }
+        insert(tree, random);
     }
     clock_t end = clock();
     double insert_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     start = clock();
-    int randomValue = rand() % 1000;
-    bool found = btree_search(tree, randomValue);
+    bool found = btree_search(tree, max);
+    
     end = clock();
 
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    fprintf(file, "%d,%.6f,%.6f\n", n, insert_time, search_time);
+    start = clock();
+    freeBTree(tree);
+    end = clock();
+
+    double delete_time = ((double)(end - start)) / CLOCKS_PER_SEC;
+    fprintf(file, "%d,%.6f,%.6f,%.6f\n", n, insert_time, search_time,delete_time);
     // fprintf(file, "n=%d, insert time=%.6f\n", n, insert_time);
     fflush(file);
-    freeBTree(tree);
 }
 
 int main()
@@ -40,7 +49,7 @@ int main()
     int num_iterations = sizeof(iterations) / sizeof(iterations[0]);
 
     FILE *file = fopen(results_file, "w");
-    fprintf(file, "Size,insertion,search\n");
+    fprintf(file, "Size,insertion,search,delete\n");
     if (file == NULL)
     {
         perror("Cant open results file.\n");

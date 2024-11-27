@@ -31,4 +31,18 @@ plt.grid(True, which="both", linestyle="--", linewidth=0.5)
 plt.savefig('search_time_vs_size.png')  # Save the second figure
 plt.close()
 
-print("Graphs have been saved as 'insertion_time_vs_size.png' and 'search_time_vs_size.png'")
+# Plot and save the third figure: delete Time vs Size
+plt.figure(figsize=(8, 6))
+plt.plot(data["Size"], data["delete"], label="delete Time", marker="o", color="green")
+plt.xscale("log")
+plt.yscale("log")
+plt.title("delete Time vs Size")
+plt.xlabel("Size")
+plt.ylabel("Time (seconds)")
+plt.legend()
+plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+plt.savefig('delete_time_vs_size.png')  # Save the second figure
+plt.close()
+
+
+print("Graphs have been saved as 'insertion_time_vs_size.png' and 'search_time_vs_size.png' and delete_time_vs_size.png")
