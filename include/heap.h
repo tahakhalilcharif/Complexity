@@ -1,6 +1,9 @@
 #ifndef HEAP_H
 #define HEAP_H
 
+#include <stdlib.h>
+#include <stdio.h>
+
 typedef struct {
     int *data;      
     int size;       
@@ -15,7 +18,7 @@ void buildMinHeap_NlogN(MinHeap* heap, int* array, int n);
 void buildMinHeap_N(MinHeap* heap, int* array, int n);
 void freeHeap(MinHeap* heap);
 void displayHeap(MinHeap* heap);
-
+int searchHeap(MinHeap* heap, int value); // New function declaration
 
 MinHeap* createHeap(int capacity) {
     MinHeap* heap = (MinHeap*) malloc(sizeof(MinHeap));
@@ -27,7 +30,7 @@ MinHeap* createHeap(int capacity) {
 
 void insertMinHeap(MinHeap* heap, int value) {
     if (heap->size == heap->capacity) {
-        printf("Le tas est plein\n");
+        printf("Heap is full\n");
         return;
     }
     
@@ -108,6 +111,15 @@ void displayHeap(MinHeap* heap) {
         printf("%d ", heap->data[i]);
     }
     printf("\n");
+}
+
+int searchHeap(MinHeap* heap, int value) {
+    for (int i = 0; i < heap->size; i++) {
+        if (heap->data[i] == value) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 #endif

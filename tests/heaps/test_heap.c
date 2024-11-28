@@ -1,16 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "../../include/heap.h"
 
 void ensure_directory(const char* path) {
     #ifdef _WIN32
-        _mkdir(path);//windows
+        _mkdir(path); // Windows
     #else
-        mkdir(path, 0777);//unix
+        mkdir(path, 0777); // Unix
     #endif
+}
+
+int* generateIterations(int* numIterations) {
+    int totalIterations = 100; // Desired number of iterations
+    int start = 1;              // Starting iteration
+    int max = 100000000;        // Maximum iteration size
+    int* iterations = (int*)malloc(totalIterations * sizeof(int));
+
+    if (!iterations) {
+        *numIterations = 0;
+        return NULL;
+    }
+
+    // Calculate exponential growth factor
+    double factor = pow((double)max / start, 1.0 / (totalIterations - 1));
+
+    // Generate iteration sizes
+    for (int i = 0; i < totalIterations; i++) {
+        iterations[i] = (int)(start * pow(factor, i));
+    }
+
+    // Ensure no duplicates due to rounding
+    for (int i = 1; i < totalIterations; i++) {
+        if (iterations[i] <= iterations[i - 1]) {
+            iterations[i] = iterations[i - 1] + 1;
+        }
+    }
+
+    *numIterations = totalIterations;
+    return iterations;
 }
 
 void benchmark_heap_operations(const char* filename, int n) {
@@ -65,18 +96,15 @@ int main() {
     }
     fclose(file);
 
-    int iterations[] = {
-        1, 10, 100, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 
-        20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 200000,
-        300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000
-    };
-    int num_iterations = sizeof(iterations) / sizeof(iterations[0]);
+    int numIterations;
+    int* iterations = generateIterations(&numIterations);
 
-    for (int i = 0; i < num_iterations; i++) {
+    for (int i = 0; i < numIterations; i++) {
         printf("Running test for n=%d...\n", iterations[i]);
         benchmark_heap_operations(results_file, iterations[i]);
     }
 
     printf("Completed tests, results saved in: %s\n", results_file);
+    free(iterations);
     return 0;
 }
