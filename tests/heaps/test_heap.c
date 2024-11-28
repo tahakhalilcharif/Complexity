@@ -7,9 +7,9 @@
 
 void ensure_directory(const char* path) {
     #ifdef _WIN32
-        _mkdir(path); // Windows
+        _mkdir(path);//windows
     #else
-        mkdir(path, 0777); // Unix-like systems
+        mkdir(path, 0777);//unix
     #endif
 }
 
@@ -47,23 +47,28 @@ void benchmark_heap_operations(const char* filename, int n) {
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    fprintf(file, "n=%d, insert time=%.6f, delete time=%.6f, search time=%.6f\n", n, insert_time, delete_time, search_time);
+    fprintf(file, "%d,%.6f,%.6f,%.6f\n", n, insert_time, delete_time, search_time);
 
     fclose(file);
     freeHeap(heap);
 }
 
 int main() {
-    const char* results_file = "../../results/heaps/heap_benchmark.txt";
+    const char* results_file = "../../results/heaps/heap_benchmark.csv";
 
     ensure_directory("../../results/heaps");
 
+    FILE* file = fopen(results_file, "r");
+    if (file == NULL) {
+        file = fopen(results_file, "w");
+        fprintf(file, "n,insert_time,delete_time,search_time\n");
+    }
+    fclose(file);
+
     int iterations[] = {
-        1, 10, 100, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 20000, 30000, 40000, 50000, 60000,
-        70000, 80000, 90000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000,
-        1000000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000, 10000000,
-        20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000,
-        200000000, 300000000, 400000000, 500000000, 600000000, 700000000, 800000000, 900000000, 1000000000
+        1, 10, 100, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 
+        20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 200000,
+        300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000
     };
     int num_iterations = sizeof(iterations) / sizeof(iterations[0]);
 

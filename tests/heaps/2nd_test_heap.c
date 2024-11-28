@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "../../include/heap.h"
 
 void generateRandomArray(int* array, int size) {
@@ -9,17 +10,41 @@ void generateRandomArray(int* array, int size) {
     }
 }
 
-void benchmarkHeapConstruction() {
-    int sizes[] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 20000, 30000, 40000, 50000, 60000
-        , 70000, 80000, 90000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000
-         , 1000000,2000000 ,3000000, 4000000, 5000000 , 6000000 , 7000000,
-          8000000, 9000000 , 10000000 ,20000000 ,30000000, 40000000, 50000000 , 60000000 , 70000000,
-          80000000, 90000000 ,100000000};
-    int numSizes = sizeof(sizes) / sizeof(sizes[0]);
-    FILE* file = fopen("../../results/heaps/heap_construction_times.csv", "w");
+int* generateSizes(int* numSizes) {
+    int totalSizes = 1000;
+    int start = 1000;      
+    int max = 100000000;   
+    int* sizes = (int*)malloc(totalSizes * sizeof(int));
 
+    if (!sizes) {
+        *numSizes = 0;
+        return NULL;
+    }
+
+    double factor = pow((double)max / start, 1.0 / (totalSizes - 1));
+
+    for (int i = 0; i < totalSizes; i++) {
+        sizes[i] = (int)(start * pow(factor, i));
+    }
+
+    for (int i = 1; i < totalSizes; i++) {
+        if (sizes[i] <= sizes[i - 1]) {
+            sizes[i] = sizes[i - 1] + 1;
+        }
+    }
+
+    *numSizes = totalSizes;
+    return sizes;
+}
+
+void benchmarkHeapConstruction() {
+    int numSizes;
+    int* sizes = generateSizes(&numSizes);
+
+    FILE* file = fopen("../../results/heaps/heap_construction_times.csv", "w");
     if (!file) {
         printf("Failed to create results file.\n");
+        free(sizes);
         return;
     }
 
@@ -45,13 +70,14 @@ void benchmarkHeapConstruction() {
         double time_N = (double)(end - start) / CLOCKS_PER_SEC;
 
         fprintf(file, "%d,%.6f,%.6f\n", size, time_NlogN, time_N);
-        printf("number: %d, time_of_nlogn: %.6f s, time_of_n: %.6f s\n", size, time_NlogN, time_N);
+        printf("iteration n : %d , Size: %d, Time_NlogN: %.6f s, Time_N: %.6f s\n", i ,size, time_NlogN, time_N);
 
         free(array);
         freeHeap(heap);
     }
 
     fclose(file);
+    free(sizes);
 }
 
 int main() {
