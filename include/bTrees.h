@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #ifndef BTREE_H
 #define BTREE_H
 
@@ -33,5 +34,8 @@ void borrowFromNext(BTreeNode* parent, int idx);
 int getPredecessor(BTreeNode* node, int idx);
 int getSuccessor(BTreeNode* node, int idx);
 void merge(BTreeNode* parent, int idx);
+
+bool search(BTreeNode *node, int key);
+bool btree_search(BTree *tree, int key);
 
 #endif
