@@ -66,11 +66,7 @@ void benchmark_heap_operations(const char* filename, int n) {
 
     start = clock();
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < heap->size; j++) {
-            if (heap->data[j] == (rand() % 1000)) {
-                break;
-            }
-        }
+        searchHeap(heap , rand() % 1000);
     }
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
