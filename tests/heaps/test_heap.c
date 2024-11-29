@@ -15,9 +15,9 @@ void ensure_directory(const char* path) {
 }
 
 int* generateIterations(int* numIterations) {
-    int totalIterations = 100; // Desired number of iterations
-    int start = 1;              // Starting iteration
-    int max = 100000000;        // Maximum iteration size
+    int totalIterations = 100;
+    int start = 1;
+    int max = 100000000;
     int* iterations = (int*)malloc(totalIterations * sizeof(int));
 
     if (!iterations) {
@@ -25,15 +25,12 @@ int* generateIterations(int* numIterations) {
         return NULL;
     }
 
-    // Calculate exponential growth factor
     double factor = pow((double)max / start, 1.0 / (totalIterations - 1));
 
-    // Generate iteration sizes
     for (int i = 0; i < totalIterations; i++) {
         iterations[i] = (int)(start * pow(factor, i));
     }
 
-    // Ensure no duplicates due to rounding
     for (int i = 1; i < totalIterations; i++) {
         if (iterations[i] <= iterations[i - 1]) {
             iterations[i] = iterations[i - 1] + 1;
