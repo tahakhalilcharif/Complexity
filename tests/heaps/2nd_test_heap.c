@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../include/heap.h"
+#include "../../include/heap.h"
 
 void generateRandomArray(int* array, int size) {
     for (int i = 0; i < size; i++) {
@@ -16,7 +16,7 @@ void benchmarkHeapConstruction() {
           8000000, 9000000 , 10000000 ,20000000 ,30000000, 40000000, 50000000 , 60000000 , 70000000,
           80000000, 90000000 ,100000000};
     int numSizes = sizeof(sizes) / sizeof(sizes[0]);
-    FILE* file = fopen("../results/heaps/heap_construction_times.csv", "w");
+    FILE* file = fopen("../../results/heaps/heap_construction_times.csv", "w");
 
     if (!file) {
         printf("Failed to create results file.\n");
