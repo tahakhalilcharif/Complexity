@@ -14,31 +14,43 @@ void ensure_directory(const char* path) {
     #endif
 }
 
-int* generateIterations(int* numIterations) {
-    int totalIterations = 100;
-    int start = 1;
-    int max = 100000000;
-    int* iterations = (int*)malloc(totalIterations * sizeof(int));
+int* readTestValuesFromCSV(const char* filename, int* numValues) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Can't open test values file.\n");
+        exit(EXIT_FAILURE);
+    }
 
-    if (!iterations) {
-        *numIterations = 0;
+    char buffer[256];
+    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+        fclose(file);
+        *numValues = 0;
         return NULL;
     }
 
-    double factor = pow((double)max / start, 1.0 / (totalIterations - 1));
-
-    for (int i = 0; i < totalIterations; i++) {
-        iterations[i] = (int)(start * pow(factor, i));
+    int count = 0;
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        count++;
     }
 
-    for (int i = 1; i < totalIterations; i++) {
-        if (iterations[i] <= iterations[i - 1]) {
-            iterations[i] = iterations[i - 1] + 1;
-        }
+    int* values = (int*)malloc(count * sizeof(int));
+    if (!values) {
+        perror("Memory allocation failed.\n");
+        fclose(file);
+        exit(EXIT_FAILURE);
     }
 
-    *numIterations = totalIterations;
-    return iterations;
+    rewind(file);
+    fgets(buffer, sizeof(buffer), file);
+
+    int index = 0;
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        values[index++] = atoi(buffer);
+    }
+
+    fclose(file);
+    *numValues = count;
+    return values;
 }
 
 void benchmark_heap_operations(const char* filename, int n) {
@@ -66,7 +78,7 @@ void benchmark_heap_operations(const char* filename, int n) {
 
     start = clock();
     for (int i = 0; i < n; i++) {
-        searchHeap(heap , rand() % 1000);
+        searchHeap(heap, rand() % 1000);
     }
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -79,8 +91,10 @@ void benchmark_heap_operations(const char* filename, int n) {
 
 int main() {
     const char* results_file = "../../results/heaps/heap_benchmark.csv";
+    const char* test_values_file = "../../tests/test_values.csv";
 
     ensure_directory("../../results/heaps");
+    ensure_directory("../../tests");
 
     FILE* file = fopen(results_file, "r");
     if (file == NULL) {
@@ -90,7 +104,12 @@ int main() {
     fclose(file);
 
     int numIterations;
-    int* iterations = generateIterations(&numIterations);
+    int* iterations = readTestValuesFromCSV(test_values_file, &numIterations);
+
+    if (iterations == NULL || numIterations == 0) {
+        fprintf(stderr, "No test values found in %s.\n", test_values_file);
+        return EXIT_FAILURE;
+    }
 
     for (int i = 0; i < numIterations; i++) {
         printf("Running test for n=%d...\n", iterations[i]);
