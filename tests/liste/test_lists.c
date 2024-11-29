@@ -61,7 +61,7 @@ int main() {
    // const char* results_file = "../../results/lists/list_benchmark.txt";
     int i;
      const char *results_file = "../../results/lists/list_benchmark.csv";
-    // Garantir que le dossier existe
+
     ensure_directory("../../results/lists");
 
     int iterations[] = {
