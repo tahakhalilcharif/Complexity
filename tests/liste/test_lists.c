@@ -25,33 +25,41 @@ void benchmark_list_operations(const char* filename, int n) {
 
     Node* head = NULL;
 
-    // Benchmark pour l'insertion au début
+    // Benchmark pour l'insertion au position
     clock_t start = clock();
     for ( i = 0; i < n; i++) {
-        insertAtBeginning(&head, rand() % 1000);
+        insertAtPosition(&head, rand() % 1000, rand() % n);
     }
+    clock_t end = clock();
+    double insertAtPosition_time = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    // Benchmark pour l'insertion at the end
+    clock_t start = clock();
+        insertAtEnd(&head, rand() % 1000);
+    clock_t end = clock();
+    double insertAtEnd_time = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    // Benchmark pour l'insertion au début
+    clock_t start = clock();
+        insertAtBeginning(&head, rand() % 1000);
     clock_t end = clock();
     double insert_beginning_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark pour la recherche
     start = clock();
-    for ( i = 0; i < n; i++) {
-        search(head, rand() % 1000);
-    }
+    search(head, 1001);
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark pour la suppression
     start = clock();
-    for ( i = 0; i < n; i++) {
-        deleteNode(&head, rand() % 1000);
-    }
+    deleteNode(&head, 1001);
     end = clock();
     double delete_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Écrire les résultats dans le fichier
-    fprintf(file, "n=%d, insert_beginning_time=%.6f, search_time=%.6f, delete_time=%.6f\n", 
-            n, insert_beginning_time, search_time, delete_time);
+    fprintf(file, "n=%d ,insert_beginning_time=%.6f, insertAtPosition_time=%.6f,insertAtEnd_time=%.6f,search_time=%.6f, delete_time=%.6f\n",
+    n , insert_beginning_time,insertAtPosition_time, insertAtEnd_time ,search_time, delete_time);
 
     fclose(file);
     freeList(head);

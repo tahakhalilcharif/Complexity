@@ -4,20 +4,22 @@ import csv
 
 # Chemin du fichier CSV contenant les données des listes
 csv_file = "results/lists/list_benchmark.csv"
-n, insert_time, delete_time, search_time = [], [], [], []
+n, insert_beginning_time,insertAtPosition_time, insertAtEnd_time , delete_time, search_time = [], [], [], []
 
 # Lecture des données depuis le fichier CSV
 with open(csv_file, 'r') as file:
     reader = csv.DictReader(file)
     for row in reader:
         n.append(int(row['n']))
-        insert_time.append(float(row['insert_beginning_time']))
+        insert_beginning_time.append(float(row['insert_beginning_time']))
+        insertAtPosition_time.append(float(row['insertAtPosition_time']))
+        insertAtEnd_time.append(float(row['insertAtEnd_time']))
         delete_time.append(float(row['delete_time']))
         search_time.append(float(row['search_time']))
 
 # Graphe pour le temps d'insertion au début
 plt.figure(figsize=(10, 6))
-plt.plot(n, insert_time, marker='o', label='Insertion Time (Beginning)')
+plt.plot(n, insert_beginning_time, marker='o', label='Insertion Time (Beginning)')
 plt.xlabel('Number of Elements (n)')
 plt.ylabel('Execution Time (seconds)')
 plt.title('List Insertion Time (Beginning)')
@@ -27,6 +29,33 @@ plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f"{y:.6f}"
 plt.legend()
 plt.savefig("results/lists/insertion_time_beginning.png")
 plt.show()
+
+# Graphe pour le temps d'insertion à une position spécifique
+plt.figure(figsize=(10, 6))
+plt.plot(n, insertAtPosition_time, marker='o', color='orange', label='Insertion Time (At Position)')
+plt.xlabel('Number of Elements (n)')
+plt.ylabel('Execution Time (seconds)')
+plt.title('List Insertion Time (At Position)')
+plt.grid(True, linestyle='--', linewidth=0.5)
+plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f"{int(x):,}"))
+plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f"{y:.6f}"))
+plt.legend()
+plt.savefig("results/lists/insertion_time_at_position.png")
+plt.show()
+
+# Graphe pour le temps d'insertion à la fin
+plt.figure(figsize=(10, 6))
+plt.plot(n, insertAtEnd_time, marker='o', color='purple', label='Insertion Time (At End)')
+plt.xlabel('Number of Elements (n)')
+plt.ylabel('Execution Time (seconds)')
+plt.title('List Insertion Time (At End)')
+plt.grid(True, linestyle='--', linewidth=0.5)
+plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f"{int(x):,}"))
+plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f"{y:.6f}"))
+plt.legend()
+plt.savefig("results/lists/insertion_time_at_end.png")
+plt.show()
+
 
 # Graphe pour le temps de suppression
 plt.figure(figsize=(10, 6))
