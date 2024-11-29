@@ -28,64 +28,90 @@ void benchmark_list_operations(const char* filename, int n) {
     // Benchmark pour l'insertion au position
     clock_t start = clock();
     for ( i = 0; i < n; i++) {
-        insertAtPosition(&head, rand() % 1000, rand() % n);
+       // insertAtPosition(&head, rand() % 1000, rand() % n);
+       insertAtPosition(&head, i , rand() % n);
     }
     clock_t end = clock();
     double insertAtPosition_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    // Benchmark pour l'insertion at the end
-    clock_t start = clock();
-        insertAtEnd(&head, rand() % 1000);
-    clock_t end = clock();
-    double insertAtEnd_time = ((double)(end - start)) / CLOCKS_PER_SEC;
-
-    // Benchmark pour l'insertion au début
-    clock_t start = clock();
-        insertAtBeginning(&head, rand() % 1000);
-    clock_t end = clock();
-    double insert_beginning_time = ((double)(end - start)) / CLOCKS_PER_SEC;
-
     // Benchmark pour la recherche
     start = clock();
-    search(head, 1001);
+    search(head, n+1);
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark pour la suppression
     start = clock();
-    deleteNode(&head, 1001);
+    deleteNode(&head, n);
     end = clock();
     double delete_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Écrire les résultats dans le fichier
-    fprintf(file, "n=%d ,insert_beginning_time=%.6f, insertAtPosition_time=%.6f,insertAtEnd_time=%.6f,search_time=%.6f, delete_time=%.6f\n",
-    n , insert_beginning_time,insertAtPosition_time, insertAtEnd_time ,search_time, delete_time);
+    fprintf(file, "n=%d , insertAtPosition_time=%.6f,search_time=%.6f, delete_time=%.6f\n",
+    n ,insertAtPosition_time ,search_time, delete_time);
 
     fclose(file);
     freeList(head);
 }
 
+// Fonction pour lire les itérations depuis un fichier CSV
+int* readIterationsFromCSV(const char* filename, int* numIterations) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Erreur lors de l'ouverture du fichier CSV.");
+        exit(EXIT_FAILURE);
+    }
+
+    int* iterations = NULL;
+    int count = 0;
+    char line[1024]; // Taille du buffer pour lire les lignes
+
+    // Lire le fichier ligne par ligne
+    while (fgets(line, sizeof(line), file)) {
+        char* token = strtok(line, ",");
+        while (token) {
+            iterations = realloc(iterations, (count + 1) * sizeof(int));
+            if (iterations == NULL) {
+                perror("Erreur d'allocation mémoire.");
+                fclose(file);
+                exit(EXIT_FAILURE);
+            }
+            iterations[count++] = atoi(token);
+            token = strtok(NULL, ",");
+        }
+    }
+
+    fclose(file);
+    *numIterations = count;
+    return iterations;
+}
+
 int main() {
-   // const char* results_file = "../../results/lists/list_benchmark.txt";
-    int i;
-     const char *results_file = "../../results/lists/list_benchmark.csv";
+int i;
+    const char* results_file = "../../results/lists/list_benchmark.csv";
+    const char* iterations_file = "../../tests/test_values.csv"; // Fichier contenant les itérations
 
     ensure_directory("../../results/lists");
 
-    int iterations[] = {
-        1, 10, 100, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 20000, 30000, 40000, 50000, 60000,
-        70000, 80000, 90000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000,
-        1000000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000, 10000000,
-        20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000,
-        200000000, 300000000, 400000000, 500000000, 600000000, 700000000, 800000000, 900000000, 1000000000
-    };
-    int num_iterations = sizeof(iterations) / sizeof(iterations[0]);
+    // Ouvrir ou créer le fichier de résultats
+    FILE* file = fopen(results_file, "r");
+    if (file == NULL) {
+        file = fopen(results_file, "w");
+        fprintf(file, "n,,insertAtPosition_time,,delete_time,search_time\n");
+    }
+    fclose(file);
 
-    for ( i = 0; i < num_iterations; i++) {
+    // Lire les itérations depuis le fichier CSV
+    int numIterations;
+    int* iterations = readIterationsFromCSV(iterations_file, &numIterations);
+
+    // Exécuter les tests
+    for (i = 0; i < numIterations; i++) {
         printf("Running test for n=%d...\n", iterations[i]);
         benchmark_list_operations(results_file, iterations[i]);
     }
 
     printf("Completed tests, results saved in: %s\n", results_file);
+    free(iterations);
     return 0;
 }
