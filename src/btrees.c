@@ -96,13 +96,15 @@ void insertBTree(BTree* tree, int key) {
     }
 }
 
-// Function to delete a key from a node
 void deleteFromNodeBTree(BTreeNode* node, int key) {
     int idx = 0;
+
+    // Find the first key greater than or equal to the key
     while (idx < node->numKeys && node->keys[idx] < key) {
         idx++;
     }
 
+    // If the key is found in this node
     if (idx < node->numKeys && node->keys[idx] == key) {
         if (node->isLeaf) {
             // Case 1: The key is in a leaf node
@@ -129,12 +131,14 @@ void deleteFromNodeBTree(BTreeNode* node, int key) {
             }
         }
     } else {
+        // The key is not in this node
         if (node->isLeaf) {
-            printf("The key %d is not present in the tree.\n", key);
+            // Key not found in a leaf node, skip
             return;
         }
 
-        if (node->children[idx]->numKeys < MIN_KEYS) {
+        // Ensure the child has enough keys
+        if (idx < node->numKeys && node->children[idx]->numKeys < MIN_KEYS) {
             if (idx != 0 && node->children[idx - 1]->numKeys >= MIN_KEYS) {
                 borrowFromPrevBTree(node, idx);
             } else if (idx != node->numKeys && node->children[idx + 1]->numKeys >= MIN_KEYS) {
@@ -147,7 +151,11 @@ void deleteFromNodeBTree(BTreeNode* node, int key) {
                 }
             }
         }
-        deleteFromNodeBTree(node->children[idx], key);
+
+        // Recursively delete in the appropriate child
+        if (idx < node->numKeys + 1 && node->children[idx]) {
+            deleteFromNodeBTree(node->children[idx], key);
+        }
     }
 }
 
@@ -155,8 +163,15 @@ void deleteFromNodeBTree(BTreeNode* node, int key) {
 void deleteBTreeKey(BTree* tree, int key) {
     BTreeNode* root = tree->root;
 
+    if (!root) {
+        // Tree is empty, nothing to delete
+        return;
+    }
+
+    // Attempt to delete the key
     deleteFromNodeBTree(root, key);
 
+    // Adjust the root if necessary
     if (root->numKeys == 0) {
         BTreeNode* temp = root;
         if (root->isLeaf) {

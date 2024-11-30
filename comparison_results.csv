@@ -1,7 +1,0 @@
-Structure,Operation,Size,TimeTaken
-Binary Search Tree,Insertion,1000,0.001000
-B-Tree,Insertion,1000,0.001000
-Doubly Linked List,Insertion,1000,0.002000
-Binary Search Tree,Recherche,1000,0.000000
-B-Tree,Recherche,1000,0.000000
-Doubly Linked List,Recherche,1000,0.000000
