@@ -23,25 +23,25 @@ void benchmark_list_operations(const char* filename, int n) {
         exit(EXIT_FAILURE);
     }
 
-    Node* head = NULL;
+    DLNode* head = NULL;
 
     // Benchmark for insert at position
     clock_t start = clock();
     for (i = 0; i < n; i++) {
-        insertAtPosition(&head, i, rand() % n);
+        insertAtPositionDL(&head, i, rand() % n);
     }
     clock_t end = clock();
     double insertAtPosition_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark for search
     start = clock();
-    search(head, rand() % n); // Search for an element that isn't in the list
+    searchDL(head, rand() % n); // Search for an element that isn't in the list
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark for delete
     start = clock();
-    deleteNode(&head , rand() % n); // Deleting a node
+    deleteDLNode(&head , rand() % n); // Deleting a node
     end = clock();
     double delete_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
