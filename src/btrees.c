@@ -285,7 +285,7 @@ void deleteKey(BTree* tree, int key) {
 
 bool search(BTreeNode *node, int key) {
     if (node == NULL) {
-        return false;  // Base case: if the node is NULL, the key is not found
+        return false;  
     }
 
     int idx = 0;
@@ -312,7 +312,7 @@ bool search(BTreeNode *node, int key) {
 // Wrapper function to search for a key in the B-tree
 bool btree_search(BTree *tree, int key) {
     if (tree == NULL || tree->root == NULL) {
-        return false;  // Tree is empty
+        return false; 
     }
     return search(tree->root, key);
 }
@@ -349,7 +349,6 @@ void freeBTreeNode(BTreeNode *node) {
         return;
     }
 
-    // Recursively free child nodes
     for (int i = 0; i <= node->numKeys; i++) {
         if (node->children[i] != NULL) {
             freeBTreeNode(node->children[i]);
@@ -365,52 +364,6 @@ void freeBTree(BTree *tree) {
     if (tree == NULL) {
         return;
     }
-
-    // Free the root node and all its children
     freeBTreeNode(tree->root);
-
-    // Free the B-tree structure itself
     free(tree);
 }
-
-
-// double getTime() {
-//     struct timeval time;
-//     gettimeofday(&time, NULL);
-//     return time.tv_sec * 1000.0 + time.tv_usec / 1000.0; // Time in milliseconds
-// }
-
-// int main() {
-//     long long sizes[] = {1000000, 80000000,90000000,100000000}; // Use reasonable sizes
-//     int numSizes = sizeof(sizes) / sizeof(sizes[0]);
-
-//     for (int s = 0; s < numSizes; s++) {
-//         long long treeSize = sizes[s];
-
-//         BTree* tree = createBTree();
-//         if (tree == NULL) {
-//             fprintf(stderr, "Failed to create B-tree.\n");
-//             continue;
-//         }
-
-//         // Build the initial tree
-//         for (long long i = 0; i < treeSize; i++) {
-//             insert(tree, i);
-//         }
-//         printf("B-tree with %lld nodes created.\n", treeSize);
-
-//         // Measure insertion time
-//         double start = getTime();
-//         printf("start time: %f\n", start);
-//         insert(tree, treeSize);
-//         double end = getTime();
-//         printf("end time: %f\n", end);
-
-//         printf("Time taken to insert one element in a B-tree with %lld nodes: %f ms\n", treeSize, end - start);
-
-//         // Free the B-tree
-//         freeBTree(tree);
-//     }
-
-//     return 0;
-// }
