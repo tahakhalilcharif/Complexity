@@ -1,104 +1,101 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/ArbreBinaire.h"
-#include <time.h>
-#include <stdbool.h>
-#include <sys/time.h>
 
 // Fonction pour créer un nouveau nœud avec une valeur donnée
-Node *newNode(int data)
+BSTNode *newBSTNode(int data)
 {
-    Node *node = (Node *)malloc(sizeof(Node));
+    BSTNode *node = (BSTNode *)malloc(sizeof(BSTNode));
     node->data = data;
     node->left = node->right = NULL;
     return node;
 }
 
 // Fonction d'insertion dans un arbre binaire de recherche (BST)
-Node *insert(Node *root, int data)
+BSTNode *insertBST(BSTNode *root, int data)
 {
     if (root == NULL)
-        return newNode(data);
+        return newBSTNode(data);
 
     if (data < root->data)
-        root->left = insert(root->left, data);
+        root->left = insertBST(root->left, data);
     else if (data > root->data)
-        root->right = insert(root->right, data);
+        root->right = insertBST(root->right, data);
 
     return root;
 }
 
 // Fonction pour afficher l'arbre en ordre (in-order traversal)
-void inorder(Node *root)
+void inorderBST(BSTNode *root)
 {
     if (root != NULL)
     {
-        inorder(root->left);
+        inorderBST(root->left);
         printf("%d ", root->data);
-        inorder(root->right);
+        inorderBST(root->right);
     }
 }
 
 // Fonction pour trouver le successeur (le plus petit élément dans le sous-arbre droit)
-Node *minValueNode(Node *node)
+BSTNode *minValueBSTNode(BSTNode *node)
 {
-    Node *current = node;
+    BSTNode *current = node;
     while (current && current->left != NULL)
         current = current->left;
     return current;
 }
 
 // Fonction pour supprimer un nœud dans un arbre binaire de recherche
-Node *deleteNode(Node *root, int key)
+BSTNode *deleteBSTNode(BSTNode *root, int key)
 {
     if (root == NULL)
         return root;
 
     if (key < root->data)
-        root->left = deleteNode(root->left, key);
+        root->left = deleteBSTNode(root->left, key);
     else if (key > root->data)
-        root->right = deleteNode(root->right, key);
+        root->right = deleteBSTNode(root->right, key);
     else
     {
         if (root->left == NULL)
         {
-            Node *temp = root->right;
+            BSTNode *temp = root->right;
             free(root);
             return temp;
         }
         else if (root->right == NULL)
         {
-            Node *temp = root->left;
+            BSTNode *temp = root->left;
             free(root);
             return temp;
         }
 
-        Node *temp = minValueNode(root->right);
+        BSTNode *temp = minValueBSTNode(root->right);
         root->data = temp->data;
-        root->right = deleteNode(root->right, temp->data);
+        root->right = deleteBSTNode(root->right, temp->data);
     }
     return root;
 }
 
 // Fonction de recherche d'un élément dans un arbre binaire de recherche
-Node *search(Node *root, int key)
+BSTNode *searchBST(BSTNode *root, int key)
 {
     if (root == NULL || root->data == key)
         return root;
 
     if (key < root->data)
-        return search(root->left, key);
+        return searchBST(root->left, key);
 
-    return search(root->right, key);
+    return searchBST(root->right, key);
 }
 
 // Fonction pour libérer la mémoire de l'arbre
-void freeTree(Node *root)
+void freeBST(BSTNode *root)
 {
     if (root != NULL)
     {
-        freeTree(root->left);
-        freeTree(root->right);
+        freeBST(root->left);
+        freeBST(root->right);
         free(root);
     }
 }

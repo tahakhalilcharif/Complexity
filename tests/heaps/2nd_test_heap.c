@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include "../../include/heap.h"
+#include "minHeap.h"
 
 void generateRandomArray(int* array, int size) {
     for (int i = 0; i < size; i++) {
