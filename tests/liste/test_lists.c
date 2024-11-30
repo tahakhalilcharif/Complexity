@@ -3,6 +3,7 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <string.h>
 #include "../../include/liste.h" // Ensure correct path
 
 // Function to create directory if necessary
@@ -49,7 +50,7 @@ void benchmark_list_operations(const char* filename, int n) {
     fprintf(file,"%d,%.6f,%.6f,%.6f\n", n,insertAtPosition_time,search_time,delete_time);
 
     fclose(file);
-    freeList(head); // Clean up memory
+    freeDLList(head); // Clean up memory
 }
 
 // Function to read iterations from a CSV file
