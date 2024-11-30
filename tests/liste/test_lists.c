@@ -3,9 +3,9 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include "../../include/liste.h" // Remplacez par le chemin correct
+#include "../../include/liste.h" // Ensure correct path
 
-// Fonction pour créer le dossier si nécessaire
+// Function to create directory if necessary
 void ensure_directory(const char* path) {
     #ifdef _WIN32
         _mkdir(path); // Windows
@@ -14,7 +14,7 @@ void ensure_directory(const char* path) {
     #endif
 }
 
-// Fonction de benchmark des opérations sur la liste
+// Benchmark function for list operations
 void benchmark_list_operations(const char* filename, int n) {
     int i;
     FILE* file = fopen(filename, "a");
@@ -25,36 +25,34 @@ void benchmark_list_operations(const char* filename, int n) {
 
     Node* head = NULL;
 
-    // Benchmark pour l'insertion au position
+    // Benchmark for insert at position
     clock_t start = clock();
-    for ( i = 0; i < n; i++) {
-       // insertAtPosition(&head, rand() % 1000, rand() % n);
-       insertAtPosition(&head, i , rand() % n);
+    for (i = 0; i < n; i++) {
+        insertAtPosition(&head, i, rand() % n);
     }
     clock_t end = clock();
     double insertAtPosition_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    // Benchmark pour la recherche
+    // Benchmark for search
     start = clock();
-    search(head, n+1);
+    search(head, rand() % n); // Search for an element that isn't in the list
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    // Benchmark pour la suppression
+    // Benchmark for delete
     start = clock();
-    deleteNode(&head, n);
+    deleteNode(&head , rand() % n); // Deleting a node
     end = clock();
     double delete_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    // Écrire les résultats dans le fichier
-    fprintf(file, "n=%d , insertAtPosition_time=%.6f,search_time=%.6f, delete_time=%.6f\n",
-    n ,insertAtPosition_time ,search_time, delete_time);
+    // Write results to CSV file
+    fprintf(file,"%d,%.6f,%.6f,%.6f\n", n,insertAtPosition_time,search_time,delete_time);
 
     fclose(file);
-    freeList(head);
+    freeList(head); // Clean up memory
 }
 
-// Fonction pour lire les itérations depuis un fichier CSV
+// Function to read iterations from a CSV file
 int* readIterationsFromCSV(const char* filename, int* numIterations) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -64,9 +62,9 @@ int* readIterationsFromCSV(const char* filename, int* numIterations) {
 
     int* iterations = NULL;
     int count = 0;
-    char line[1024]; // Taille du buffer pour lire les lignes
+    char line[1024];
 
-    // Lire le fichier ligne par ligne
+    // Read the file line by line
     while (fgets(line, sizeof(line), file)) {
         char* token = strtok(line, ",");
         while (token) {
@@ -87,26 +85,27 @@ int* readIterationsFromCSV(const char* filename, int* numIterations) {
 }
 
 int main() {
-int i;
+    int i;
     const char* results_file = "../../results/lists/list_benchmark.csv";
-    const char* iterations_file = "../../tests/test_values.csv"; // Fichier contenant les itérations
+    const char* iterations_file = "../../tests/test_values.csv"; // File containing iterations
 
     ensure_directory("../../results/lists");
 
-    // Ouvrir ou créer le fichier de résultats
+    // Open or create the results file
     FILE* file = fopen(results_file, "r");
     if (file == NULL) {
         file = fopen(results_file, "w");
-        fprintf(file, "n,,insertAtPosition_time,,delete_time,search_time\n");
+        fprintf(file, "n,insertAtPosition_time,search_time,delete_time\n");// CSV header
+
     }
     fclose(file);
 
-    // Lire les itérations depuis le fichier CSV
+    // Read iterations from the CSV file
     int numIterations;
     int* iterations = readIterationsFromCSV(iterations_file, &numIterations);
 
-    // Exécuter les tests
-    for (i = 0; i < numIterations; i++) {
+    // Execute tests
+    for (i = 100; i < numIterations; i++) {
         printf("Running test for n=%d...\n", iterations[i]);
         benchmark_list_operations(results_file, iterations[i]);
     }
