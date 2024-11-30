@@ -2,88 +2,148 @@
 #include <stdlib.h>
 #include "../include/liste.h"
 
-// Programme principal
-int main() {
-    Node* head = NULL;
-    int data, position,target,supp;
-    Node* result;
-    char i;
+// Fonction pour créer un nouveau nœud avec une valeur donnée
+DLNode* createDLNode(int data) {
+    DLNode* newNode = (DLNode*)malloc(sizeof(DLNode));
+    if (newNode == NULL) {
+        printf("Erreur d'allocation memoire\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+    return newNode;
+}
 
-    while (1) {
-        // Demander a l'utilisateur s'il veut inserer un nombre
-        printf("\nEntrez le nombre que vous souhaitez inserer (ou -1 pour quitter) : ");
-        scanf("%d", &data);
-        if (data == -1) break;
+// Fonction pour insérer un nœud au début de la liste
+void insertAtBeginningDL(DLNode** head, int data) {
+    DLNode* newNode = createDLNode(data);
+    newNode->next = *head;
+    if (*head != NULL) {
+        (*head)->prev = newNode;
+    }
+    *head = newNode;
+}
 
-        printf("Entrez la position ou inserer le nombre ( par ex 0 pour debut, -1 pour fin) : ");
-        scanf("%d", &position);
+// Fonction pour insérer un nœud à la fin de la liste
+void insertAtEndDL(DLNode** head, int data) {
+    DLNode* newNode = createDLNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+    DLNode* temp = *head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->prev = temp;
+}
 
-        // Gestion de la position en fonction de l'entree
-        if (position == -1) {
-            insertAtEnd(&head, data);  // Insertion a la fin
-        } else {
-            insertAtPosition(&head, data, position);  // Insertion a la position donnee
+// Fonction pour insérer un nœud à une position donnée
+void insertAtPositionDL(DLNode** head, int data, int position) {
+    if (position == 0) {
+        insertAtBeginningDL(head, data);
+        return;
+    }
+    DLNode* temp = *head;
+    int i = 0;
+    while (temp != NULL && i < position - 1) {
+        temp = temp->next;
+        i++;
+    }
+    if (temp == NULL || temp->next == NULL) {
+        insertAtEndDL(head, data);
+    } else {
+        DLNode* newNode = createDLNode(data);
+        newNode->next = temp->next;
+        newNode->prev = temp;
+        if (temp->next != NULL) {
+            temp->next->prev = newNode;
         }
-
-        // Affichage de la liste apres chaque insertion
-        printList(head);
+        temp->next = newNode;
     }
+}
 
-    while (1)
-    {
-        // Demander a l'utilisateur s'il veut rechercher un nombre
-    printf("Voulez-vous rechercher un nombre ? (o/n) : ");
-    scanf(" %c", &i);  
-
-    // Sortir de la boucle si l'utilisateur entre 'n' ou 'N'
-    if (i == 'n' || i == 'N') {
-        break;
-    }
-
-    if (i == 'o' || i == 'O') {  
-        printf("Entrez le nombre a rechercher : ");
-        scanf("%d", &target);
-
-        result = optimizedSearch(head, target);
-
-        if (result != NULL) {
-            printf("Element %d trouve dans la liste.\n", result->data);
-        } else {
-            printf("Element %d non trouve dans la liste.\n", target);
+// Fonction de recherche d'un nœud dans la liste
+DLNode* searchDL(DLNode* head, int target) {
+    DLNode* current = head;
+    while (current != NULL) {
+        if (current->data == target) {
+            return current;
         }
-    } 
+        current = current->next;
     }
+    return NULL;
+}
 
-
-    while (1)
-    {
-        // Demander a l'utilisateur s'il veut supprimer un nombre
-    printf("Voulez-vous supprimer un nombre ? (o/n) : ");
-    scanf(" %c", &i);  
-
-    // Sortir de la boucle si l'utilisateur entre 'n' ou 'N'
-    if (i == 'n' || i == 'N') {
-        break;
+// Fonction de recherche optimisée (avec double-scan)
+DLNode* optimizedSearchDL(DLNode* head, int target) {
+    if (head == NULL) return NULL;
+    DLNode* start = head;
+    DLNode* end = head;
+    while (end->next != NULL) {
+        end = end->next;
     }
-
-    if (i == 'o' || i == 'O') {  
-        
-        printf("Entrez le nombre a supprimer : ");
-        scanf("%d", &supp);
-
-       int supprimer= deleteNode(&head, supp);
-
-        if(supprimer==0) {
-            printf("Element %d non trouve dans la liste.\n", supp);
-        } else {
-            printf("Element %d supprime de la liste.\n", supp);
+    while (start != NULL && end != NULL && start != end && end->next != start) {
+        if (start->data == target) {
+            return start;
         }
-        // Afficher la liste apres suppression
-        printList(head);
-    } 
+        if (end->data == target) {
+            return end;
+        }
+        start = start->next;
+        end = end->prev;
     }
-    // Liberation de la memoire
-    freeList(head);
-    printf("FIN. ");
-    return 0;
+    if (start != NULL && start->data == target) {
+        return start;
+    }
+    return NULL;
+}
+
+// Fonction pour supprimer un nœud de la liste
+int deleteDLNode(DLNode** head, int data) {
+    int supprimer;
+    DLNode* nodeToDelete = searchDL(*head, data);
+    if (nodeToDelete == NULL) {
+        supprimer = 0;
+        return supprimer;
+    }
+    if (nodeToDelete == *head) {
+        *head = nodeToDelete->next;
+        if (*head != NULL) {
+            (*head)->prev = NULL;
+        }
+    } else if (nodeToDelete->next == NULL) {
+        nodeToDelete->prev->next = NULL;
+    } else {
+        nodeToDelete->prev->next = nodeToDelete->next;
+        if (nodeToDelete->next != NULL) {
+            nodeToDelete->next->prev = nodeToDelete->prev;
+        }
+    }
+    free(nodeToDelete);
+    supprimer = 1;
+    return supprimer;
+}
+
+// Fonction pour afficher la liste doublement chaînée
+void printDLList(DLNode* head) {
+    DLNode* temp = head;
+    printf("Liste : ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Fonction pour libérer la mémoire de la liste
+void freeDLList(DLNode* head) {
+    DLNode* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
 }

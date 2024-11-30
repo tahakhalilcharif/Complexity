@@ -23,7 +23,7 @@ void benchmark_list_operations(const char* filename, int n) {
         exit(EXIT_FAILURE);
     }
 
-    Node* head = NULL;
+    DLNode* head = NULL; // badlt hdi berk car kanet 
 
     // Benchmark for insert at position
     clock_t start = clock();
@@ -105,7 +105,7 @@ int main() {
     int* iterations = readIterationsFromCSV(iterations_file, &numIterations);
 
     // Execute tests
-    for (i = 100; i < numIterations; i++) {
+    for (i = 1000; i < numIterations; i++) {
         printf("Running test for n=%d...\n", iterations[i]);
         benchmark_list_operations(results_file, iterations[i]);
     }
