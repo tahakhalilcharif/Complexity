@@ -65,8 +65,8 @@ Make sure the following files exist in the project directory structure:
 If you haven't already cloned the project repository, do so with:
 
 ```bash
-git clone https://github.com/yourusername/performance-comparison.git
-cd performance-comparison
+git clone https://github.com/tahakhalilcharif/Complexity.git
+cd Complexity
 ```
 
 ### Ensure all dependencies are installed:
@@ -74,10 +74,12 @@ cd performance-comparison
 - Install Python dependencies as mentioned in the prerequisites section.
 
 ### Compile the C Program:
-The C program will need to be compiled before it can be executed. Run the following script to compile all required C source files:
+The C program will need to be compiled before it can be executed. Run the following script to compile the main program:
+
 
 ```bash
-python runMain.py
+cd src
+gcc -std=c99 -I../include -o main main.c liste.c arbrebinaire.c btrees.c maxheap.c minheap.c -lm
 ```
 
 This will create an executable (`performance_comparison`) that can be run to simulate performance comparisons.
