@@ -3,6 +3,7 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <string.h>
 #include "../../include/liste.h" // Ensure correct path
 
 // Function to create directory if necessary
@@ -23,25 +24,26 @@ void benchmark_list_operations(const char* filename, int n) {
         exit(EXIT_FAILURE);
     }
 
+    DLNode* head = NULL;
     DLNode* head = NULL; // badlt hdi berk car kanet 
 
     // Benchmark for insert at position
     clock_t start = clock();
     for (i = 0; i < n; i++) {
-        insertAtPosition(&head, i, rand() % n);
+        insertAtPositionDL(&head, i, rand() % n);
     }
     clock_t end = clock();
     double insertAtPosition_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark for search
     start = clock();
-    search(head, rand() % n); // Search for an element that isn't in the list
+    searchDL(head, rand() % n); // Search for an element that isn't in the list
     end = clock();
     double search_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     // Benchmark for delete
     start = clock();
-    deleteNode(&head , rand() % n); // Deleting a node
+    deleteDLNode(&head , rand() % n); // Deleting a node
     end = clock();
     double delete_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 
@@ -49,7 +51,7 @@ void benchmark_list_operations(const char* filename, int n) {
     fprintf(file,"%d,%.6f,%.6f,%.6f\n", n,insertAtPosition_time,search_time,delete_time);
 
     fclose(file);
-    freeList(head); // Clean up memory
+    freeDLList(head); // Clean up memory
 }
 
 // Function to read iterations from a CSV file
