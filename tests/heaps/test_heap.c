@@ -4,7 +4,7 @@
 #include <math.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include "../../include/heap.h"
+#include "minHeap.h"
 
 void ensure_directory(const char* path) {
     #ifdef _WIN32
