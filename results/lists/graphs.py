@@ -2,20 +2,21 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import csv
 
-# Chemin du fichier CSV contenant les données des listes
-csv_file = "results/lists/list_benchmark.csv"
-n, insertAtPosition_time , search_time,delete_time = [], [], [], []
+# Path to the CSV file containing list operation results
+csv_file = "results/lists/list_benchmark.csv" 
+n, insertAtPosition_time, search_time, delete_time = [], [], [], []
 
-# Lecture des données depuis le fichier CSV
+# Read the data from the CSV file
 with open(csv_file, 'r') as file:
     reader = csv.DictReader(file)
     for row in reader:
         n.append(int(row['n']))
         insertAtPosition_time.append(float(row['insertAtPosition_time']))
-        delete_time.append(float(row['delete_time']))
         search_time.append(float(row['search_time']))
+        delete_time.append(float(row['delete_time']))
 
-# Graphe pour le temps d'insertion à une position spécifique
+
+# Graph for the insertion time at a specific position
 plt.figure(figsize=(10, 6))
 plt.plot(n, insertAtPosition_time, marker='o', color='orange', label='Insertion Time (At Position)')
 plt.xlabel('Number of Elements (n)')
@@ -28,8 +29,7 @@ plt.legend()
 plt.savefig("results/lists/insertion_time_at_position.png")
 plt.show()
 
-
-# Graphe pour le temps de suppression
+# Graph for the deletion time
 plt.figure(figsize=(10, 6))
 plt.plot(n, delete_time, marker='o', color='r', label='Deletion Time')
 plt.xlabel('Number of Elements (n)')
@@ -42,7 +42,7 @@ plt.legend()
 plt.savefig("results/lists/deletion_time.png")
 plt.show()
 
-# Graphe pour le temps de recherche
+# Graph for the search time
 plt.figure(figsize=(10, 6))
 plt.plot(n, search_time, marker='o', color='g', label='Search Time')
 plt.xlabel('Number of Elements (n)')
