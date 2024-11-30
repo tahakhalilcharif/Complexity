@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../../include/arbreBinaire.h" // Inclure l'en-tête de votre arbre binaire
+#include "../../src/arbreBinaire.c"
+#include <math.h> // Inclure l'en-tête de votre arbre binaire
 
 void benchmarkBSTOperations(FILE *file, int n)
 {
@@ -57,7 +58,7 @@ void benchmarkBSTOperations(FILE *file, int n)
 int main()
 {
     // Définir les fichiers pour les résultats et les tailles de test
-    const char *results_file = "../../results/arbreBinaire/arbre_benchmark.csv";
+    const char *results_file = "../../results/arbreBinaire/arbre_benchmark2.csv";
     const char *test_values_file = "../test_values.csv";
 
     // Ouvrir le fichier de test_values.csv pour lire les tailles d'itération
@@ -101,16 +102,27 @@ int main()
     // Écrire l'en-tête du fichier CSV
     fprintf(file, "Size,insertion,search,delete\n");
 
-    // Exécuter les tests pour chaque taille d'arbre
-    for (int i = 0; i < num_iterations; i++)
+    int num_iterations2 = 60;
+    int iterations2[num_iterations2];
+    double start = 1; // Logarithmique de 10^1 = 1
+    double end = 20;  // Logarithmique de 10^9 = 9
+    double step = (end - start) / (num_iterations2 - 1);
+
+    for (int i = 0; i < num_iterations2; i++)
     {
-        printf("Running test for n=%d...\n", iterations[i]);
-        benchmarkBSTOperations(file, iterations[i]); // Effectuer le benchmark
+        iterations2[i] = (int)pow(10, start + i * step);
+    }
+
+    // Exécuter les tests pour chaque taille d'arbre
+    for (int i = 0; i < num_iterations2; i++)
+    {
+        printf("Running test for n=%d...\n", iterations2[i]);
+        benchmarkBSTOperations(file, iterations2[i]); // Effectuer le benchmark
     }
 
     // Fermer le fichier après les tests
     fclose(file);
-    free(iterations);
+    free(iterations2);
     printf("Completed tests, results saved in: %s\n", results_file);
 
     return 0;

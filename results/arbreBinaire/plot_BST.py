@@ -6,7 +6,7 @@ import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Load the CSV file into a pandas DataFrame
-file_path = 'C:/Users/hp/Desktop/Complexity/results/arbreBinaire/arbre_benchmark.csv'
+file_path = 'C:/Users/hp/Desktop/Complexity/results/arbreBinaire/arbre_benchmark2.csv'
 data = pd.read_csv(file_path)
 
 # Define output paths for the graphs
